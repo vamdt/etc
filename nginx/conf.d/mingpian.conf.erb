@@ -1,0 +1,29 @@
+server {
+  listen 80;
+  client_max_body_size 4G;
+  server_name <%= conf[:domain] %>;
+
+  keepalive_timeout 5;
+
+  # Location of our static files
+  root <%= conf[:frontend_dist] %>;
+
+  location / {
+    try_files $uri $uri/ @front;
+  }
+
+  location @front {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_pass http://<%= frontend_proxy %>;
+  }
+
+  error_page 500 502 503 504 /500.html;
+  location = /500.html {
+    root <%= conf[:backend_dir] %>/public;
+  }
+
+  access_log <%= conf[:backend_dir] %>/log/nginx-access.log;
+  error_log  <%= conf[:backend_dir] %>/log/nginx-error.log;
+}
