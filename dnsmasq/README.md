@@ -1,0 +1,6 @@
+# dnsmasq
+
+## Installtion
+````bash
+make
+````
