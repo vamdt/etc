@@ -11,8 +11,8 @@ install:
 reload:
 	sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
 	sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
-	#sudo ifconfig en1 down
-	#sudo ifconfig en1 up
+	sudo ifconfig en1 down
+	sudo ifconfig en1 up
 
 clean:
 	-rm -rf ${CONF_DIR}
